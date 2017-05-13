@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements SourceAdapter.ISo
     
     private void downloadDataSources()
     {
-        String url = "https://newsapi.org/v1/sources?language=en";
+        String url = "https://pastebin.com/raw/yEu96e1Y";
         
         GsonGetRequest<SourcesResponse> myRequest = new GsonGetRequest<SourcesResponse>
                 (url, SourcesResponse.class, null, new Response.Listener<SourcesResponse>()
@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity implements SourceAdapter.ISo
                     public void onResponse(SourcesResponse response)
                     {
                         Log.d("FLOW", "onResponse: " + (new Gson().toJson(response)));
-                        if (response.status.equals("ok"))
+                        if (response.query.equals(""))
                         {
-                            fillColor(response.sources);
-                            mList.addAll(response.sources);
+                            fillColor(response.results);
+                            mList.addAll(response.results);
                             mAdapter.notifyDataSetChanged();
                         }
                     }
@@ -83,11 +83,11 @@ public class MainActivity extends AppCompatActivity implements SourceAdapter.ISo
         for (int i = 0; i < sources.size(); i++)
             sources.get(i).color = ColorUtil.getRandomColor();
     }
-    
+
     @Override
     public void showArticles(String id, String name, String sortBy)
     {
-        Intent intent = new Intent(this, ArticlesActivity.class);
+        Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra(SOURCEID, id);
         intent.putExtra(SOURCENAME, name);
         intent.putExtra(SOURCESORTBY, sortBy);

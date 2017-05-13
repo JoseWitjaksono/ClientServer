@@ -5,7 +5,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,10 +24,12 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ViewHolder
 {
     ArrayList<Source> list;
     ISourceAdapter mISourceAdapter;
+    Context context;
     
     public SourceAdapter(Context context, ArrayList<Source> list)
     {
         this.list = list;
+        this.context = context;
         mISourceAdapter = (ISourceAdapter) context;
     }
     
@@ -41,8 +46,14 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position)
     {
         Source source = list.get(position);
-        holder.tvName.setText(source.name);
-        holder.tvDesc.setText(source.description);
+        holder.tvName.setText(source.title);
+        holder.tvDesc.setText(source.kwic);
+        Glide.with(context).load(source.iurl)
+                .crossFade()
+                .centerCrop()
+                .placeholder(R.mipmap.ic_launcher_round)
+                .error(R.mipmap.ic_launcher)
+                .into(holder.ivSource);
         holder.itemView.setBackgroundColor(source.color);
     }
     
@@ -63,22 +74,14 @@ public class SourceAdapter extends RecyclerView.Adapter<SourceAdapter.ViewHolder
     {
         TextView tvName;
         TextView tvDesc;
+        ImageView ivSource;
         
         public ViewHolder(View itemView)
         {
             super(itemView);
             tvName = (TextView) itemView.findViewById(R.id.textViewName);
             tvDesc = (TextView) itemView.findViewById(R.id.textViewDesc);
-            itemView.setOnClickListener(new View.OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    Source source = list.get(getAdapterPosition());
-                    List<String> sort = source.sortBysAvailable;
-                    mISourceAdapter.showArticles(source.id, source.name, sort.get(sort.size() - 1));
-                }
-            });
+            ivSource = (ImageView) itemView.findViewById(R.id.imageViewSource);
         }
     }
 }

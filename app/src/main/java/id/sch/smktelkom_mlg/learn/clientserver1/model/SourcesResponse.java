@@ -25,7 +25,7 @@ public class SourcesResponse
     //            "sortBysAvailable": ["top"]
     //            },]
     
-    public String status;
-    public List<Source> sources;
+    public String query;
+    public List<Source> results;
     
 }

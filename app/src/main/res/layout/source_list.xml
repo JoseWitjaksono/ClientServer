@@ -16,6 +16,11 @@
         android:textColor="@android:color/white"
         tools:text="Judul" />
 
+    <ImageView
+        android:id="@+id/imageViewSource"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
     <TextView
         android:id="@+id/textViewDesc"
         android:layout_width="match_parent"
